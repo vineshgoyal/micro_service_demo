@@ -16,6 +16,7 @@ app.post('/events', async (req, res) => {
     const event = req.body;
     console.log("Event received by event bus", event);
     await axios.post("http://post-cluster-service:8080/event", event);
+    await axios.post("http://query-cluster-service:8083/event", event);
     res.send({ status: "ok" });
 });
 

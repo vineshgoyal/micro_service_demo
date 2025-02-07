@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query-pod
+  template:
+    metadata:
+      labels:
+        app: query-pod
+    spec:
+      containers:
+        - name: query-pod-container
+          image: vineshgoyal/micro_serv_query
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-cluster-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8083 # Port exposed by the service
+      targetPort: 3000 # Port your query app listens on
+  selector:
+    app: query-pod # Matches your posts Pod labels

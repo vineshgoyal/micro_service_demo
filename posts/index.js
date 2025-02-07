@@ -89,11 +89,12 @@ app.use(express.json());
 
 app.post("/event", (req, res)=>{
     console.log("receive event", req.body);
+    return res.json({status: "OK"});
 });
 
-app.get('/posts', (req, res) => {
-    res.json(posts); // Send the posts data as JSON
-});
+// app.get('/posts', (req, res) => {
+//     res.json(posts); // Send the posts data as JSON
+// });
 
 app.get('/posts/version', (req, res) => {
     res.json({
@@ -110,8 +111,9 @@ app.post('/posts/create', async (req, res) => {
     try {
         await axios.post("http://event-cluster-service:8085/events", {
             type: "PostCreated",
-            ...postObj
+            data: postObj
         });
+        console.log("Sending response to client")
         res.json(postObj);
     } catch (error) {
         console.error("Error sending event:", error.message);

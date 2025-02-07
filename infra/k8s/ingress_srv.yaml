@@ -18,6 +18,13 @@ spec:
         pathType: Prefix
         backend:
           service:
+            name: query-cluster-service # Just one service for testing
+            port:
+              number: 8083
+      - path: /posts/create
+        pathType: Prefix
+        backend:
+          service:
             name: post-cluster-service # Just one service for testing
             port:
               number: 8080
