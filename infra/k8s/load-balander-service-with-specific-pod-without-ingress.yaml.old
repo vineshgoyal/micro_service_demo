@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodejs-service
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080  # Port exposed by the LoadBalancer
+      targetPort: 4001 # Port your Node.js app listens on inside the container
+  selector:
+    app: post-pod # Matches the labels of your Pod

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post-pod
+  template:
+    metadata:
+      labels:
+        app: post-pod
+    spec:
+      containers:
+        - name: post-pod-container
+          image: vineshgoyal/micro_serv_post
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-cluster-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080 # Port exposed by the service
+      targetPort: 3000 # Port your posts app listens on
+  selector:
+    app: post-pod # Matches your posts Pod labels

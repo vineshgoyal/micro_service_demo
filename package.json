@@ -1,0 +1,20 @@
+{
+  "name": "micro_services_demo",
+  "version": "1.0.0",
+  "description": "- The ingress addon is required for the loadbalancer to work. - The metallb addon is required if you are working on bare metal environment, like on premise servers. - The minikube tunnel is required for metallb to work. - Enable the LoadBalancer Add-on (if not already enabled): \t```sh \tminikube addons enable ingress \t``` - metallb is required for metal env \t```sh \tminikube addons enable metallb \t```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:post": "docker build -t vineshgoyal/micro_serv_post:latest ./posts && docker push vineshgoyal/micro_serv_post:latest",
+    "build:comment": "docker build -t vineshgoyal/micro_serv_comment:latest ./comments && docker push vineshgoyal/micro_serv_comment:latest",
+    "build": "npm run build:post && npm run build:comment",
+    "deploy:post": "kubectl apply -f infra/k8s/post_depl.yaml",
+    "deploy:comment": "kubectl apply -f infra/k8s/comment_depl.yaml",
+    "deploy:ingress": "kubectl apply -f infra/k8s/ingress_srv.yaml",
+    "deploy:loadbalancer": "kubectl apply -f infra/k8s/load-balander-with-ingress.yaml",
+    "deploy": "npm run deploy:comment && npm run deploy:ingress && npm run deploy:loadbalancer"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-service # Name for the LoadBalancer Service
+spec:
+  type: LoadBalancer # Or NodePort if you prefer
+  ports:
+    - protocol: TCP
+      port: 80 # Port exposed by the LoadBalancer
+      targetPort: 80 # Port the Ingress controller listens on (usually 80)
+  selector:  # Select the Ingress controller Pods
+    app.kubernetes.io/name: ingress-nginx # Example selector for ingress-nginx

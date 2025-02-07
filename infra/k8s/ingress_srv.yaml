@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  ingressClassName: nginx  # Make sure it matches your ingress class
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: client-cluster-service # Just one service for testing
+            port:
+              number: 8082
+      - path: /posts
+        pathType: Prefix
+        backend:
+          service:
+            name: post-cluster-service # Just one service for testing
+            port:
+              number: 8080
+      - path: /comments
+        pathType: Prefix
+        backend:
+          service:
+            name: comment-cluster-service # Just one service for testing
+            port:
+              number: 8081
+      

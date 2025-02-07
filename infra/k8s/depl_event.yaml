@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-pod
+  template:
+    metadata:
+      labels:
+        app: event-pod
+    spec:
+      containers:
+        - name: event-pod-container
+          image: vineshgoyal/micro_serv_event
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-cluster-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8085 # Port exposed by the service
+      targetPort: 3000 # Port your events app listens on
+  selector:
+    app: event-pod # Matches your events Pod labels

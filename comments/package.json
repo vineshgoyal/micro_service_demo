@@ -1,0 +1,22 @@
+{
+  "name": "posts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "docker build -t vineshgoyal/micro_serv_comment:latest . && docker push vineshgoyal/micro_serv_comment:latest",
+    "refresh-build": "npm run build && kubectl rollout restart deployment comment-depl",
+    "logs": "kubectl get pods -l app=comment-pod -o custom-columns=:metadata.name | xargs -I {} sh -c 'kubectl logs -f {}'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

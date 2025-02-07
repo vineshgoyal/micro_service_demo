@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comment-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comment-pod
+  template:
+    metadata:
+      labels:
+        app: comment-pod
+    spec:
+      containers:
+        - name: comment-pod-container
+          image: vineshgoyal/micro_serv_comment
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comment-cluster-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8081 # Port exposed by the service
+      targetPort: 3000 # Port your posts app listens on
+  selector:
+    app: comment-pod # Matches your posts Pod labels
